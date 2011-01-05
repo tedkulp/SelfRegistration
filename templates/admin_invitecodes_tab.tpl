@@ -24,14 +24,4 @@
 </div>
 {/if}
 
-<div class="pageoverflow">
-  {$addlink}
-</div>
-
-<div class="pageoverflow">
-  <p class="pagetext"></p>
-  <p class="pageinput">
-    <input type="submit" name="{$actionid}submit" value="{$mod->Lang('submit')}"/>
-  </p>
-</div>
 {$formend}

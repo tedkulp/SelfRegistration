@@ -41,36 +41,57 @@ if( !$this->CheckPermission('Modify Site Preferences') ) return;
 $feu = $this->GetModuleInstance('FrontEndUsers');
 if( !$feu ) return;
 
-$grouplist = $feu->GetGroupListFull();
+// initialization
+$this->SetCurrentTab('invitecodes');
+$error = '';
+$group_id = '';
+$group = null;
 
-if (is_array($grouplist))
+// handle incoming params
+if (isset($params['groupid']))
 {
-	foreach ($grouplist as &$row)
+	$group_id = (int)$params['groupid'];
+	$group = $feu->GetGroupInfo($group_id);
+}
+else
+{
+	$this->RedirectToTab($id);
+}
+
+// handle form submit
+if (isset($params['cancel']))
+{
+	$this->RedirectToTab($id);
+}
+
+if (isset($params['submit']))
+{
+	$error = false;
+
+	if ($group_id != '' && isset($params['code']))
 	{
-		$row['code'] = $this->GetPreference('invite_code_' . $row['id'], 'n/a');
-		$row['edit_url'] = $this->CreateURL($id,'admin_addinvitecode',$returnid,
-			array('groupid'=>$row['id']));
-		$row['delete_link'] = $this->CreateImageLink($id,'admin_delinvitecode',$returnid,
-			$this->Lang('delete'),
-			'icons/system/delete.gif',
-			array('groupid'=>$row['id']));
-		$row['edit_link'] = $this->CreateImageLink($id,'admin_addinvitecode',$returnid,
-			$this->Lang('edit'),
-			'icons/system/edit.gif',
-			array('groupid'=>$row['id']));
+		$this->SetPreference('invite_code_' . $group_id, trim($params['code']));
+	}
+
+	if (!$error)
+	{
+		$this->RedirectToTab($id);
 	}
 }
 
-// build the template'
-$smarty->assign('grouplist', $grouplist);
-$smarty->assign('formstart', $this->CGCreateFormStart($id,'admin_addinvitecode'));
-$smarty->assign('formend', $this->CreateFormEnd());
-$smarty->assign('addlink', $this->CreateImageLink($id,'admin_addinvitecode',$returnid,
-						 $this->Lang('add_invitecode'),
-						 'icons/system/newobject.gif',
-						 array(),'','',false));
+// build the form
+if (!empty($error))
+{
+	echo $this->ShowErrors($error);
+}
 
-echo $this->ProcessTemplate('admin_invitecodes_tab.tpl');
+
+$smarty->assign('formstart',$this->CGCreateFormStart($id,'admin_addinvitecode',$returnid,$params));
+$smarty->assign('formend',$this->CreateFormEnd());
+$smarty->assign('input_code',$this->CreateInputText($id,'code', $this->GetPreference('invite_code_' . $group_id, isset($params['code']) ? $params['code'] : ''), 20));
+$smarty->assign('group', $group);
+
+echo $this->ProcessTemplate('admin_addinvitecode.tpl');
 
 #
 # EOF

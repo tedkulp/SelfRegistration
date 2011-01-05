@@ -41,37 +41,18 @@ if( !$this->CheckPermission('Modify Site Preferences') ) return;
 $feu = $this->GetModuleInstance('FrontEndUsers');
 if( !$feu ) return;
 
-$grouplist = $feu->GetGroupListFull();
+$this->SetCurrentTab('invitecodes');
 
-if (is_array($grouplist))
+if (!isset($params['groupid']) )
 {
-	foreach ($grouplist as &$row)
-	{
-		$row['code'] = $this->GetPreference('invite_code_' . $row['id'], 'n/a');
-		$row['edit_url'] = $this->CreateURL($id,'admin_addinvitecode',$returnid,
-			array('groupid'=>$row['id']));
-		$row['delete_link'] = $this->CreateImageLink($id,'admin_delinvitecode',$returnid,
-			$this->Lang('delete'),
-			'icons/system/delete.gif',
-			array('groupid'=>$row['id']));
-		$row['edit_link'] = $this->CreateImageLink($id,'admin_addinvitecode',$returnid,
-			$this->Lang('edit'),
-			'icons/system/edit.gif',
-			array('groupid'=>$row['id']));
-	}
+	$this->SetError($this->Lang('error_insufficientparams'));
+	$this->RedirectToTab($id);
 }
 
-// build the template'
-$smarty->assign('grouplist', $grouplist);
-$smarty->assign('formstart', $this->CGCreateFormStart($id,'admin_addinvitecode'));
-$smarty->assign('formend', $this->CreateFormEnd());
-$smarty->assign('addlink', $this->CreateImageLink($id,'admin_addinvitecode',$returnid,
-						 $this->Lang('add_invitecode'),
-						 'icons/system/newobject.gif',
-						 array(),'','',false));
+$this->RemovePreference('invite_code_' . $params['groupid']);
 
-echo $this->ProcessTemplate('admin_invitecodes_tab.tpl');
-
+$this->RedirectToTab($id);
 #
 # EOF
 #
+?>
