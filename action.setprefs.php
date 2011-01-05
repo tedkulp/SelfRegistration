@@ -184,6 +184,10 @@ if( isset($params['allowselectpkg']) )
   {
     $this->SetPreference('allowselectpkg',(int)$params['allowselectpkg']);
   }
+if( isset($params['allowinvitecodes']) )
+  {
+    $this->SetPreference('allowinvitecodes',(int)$params['allowinvitecodes']);
+  }
 if( isset($params['allowpaidregistration']) )
   {
     $this->SetPreference('allowpaidregistration',(int)$params['allowpaidregistration']);

@@ -56,13 +56,16 @@ if( $this->CheckPermission('Modify Templates' ) )
     echo $this->SetTabHeader('emailconfirm_template', $this->Lang('emailconfirm_template'));
     echo $this->SetTabHeader('emailuseredited_template', $this->Lang('emailuseredited_template'));
     echo $this->SetTabHeader('finalmessage_template',$this->Lang('finalmessage_template'));
-    echo $this->SetTabHeader('invitecodes',$this->Lang('invitecodes'));
     echo $this->SetTabHeader('sendanotheremail_template', $this->Lang('sendanotheremail_template'));
   }
 
 if( $this->CheckPermission('Modify Site Preferences') )
   {
     echo $this->SetTabHeader('preferences', $this->Lang('preferences'));
+	if ($this->GetPreference('allowinvitecodes', '0') == '1')
+	{
+		echo $this->SetTabHeader('invitecodes',$this->Lang('invitecodes'));
+	}
     echo $this->SetTabHeader('regpkgs',$this->Lang('regpkgs_tab'));
   }
 echo $this->EndTabHeaders();
@@ -114,9 +117,12 @@ if( $this->CheckPermission('Modify Site Preferences') )
     include(dirname(__FILE__).'/function.admin_prefstab.php');
     echo $this->EndTab();
 
-    echo $this->StartTab('invitecodes',$params);
-    include(dirname(__FILE__).'/function.admin_invitecodestab.php');
-    echo $this->EndTab();
+	if ($this->GetPreference('allowinvitecodes', '0') == '1')
+	{
+		echo $this->StartTab('invitecodes',$params);
+		include(dirname(__FILE__).'/function.admin_invitecodestab.php');
+		echo $this->EndTab();
+	}
 
     echo $this->StartTab('regpkgs',$params);
     include(dirname(__FILE__).'/function.admin_paidregistration_tab.php');

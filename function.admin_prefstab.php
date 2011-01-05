@@ -174,6 +174,10 @@ $smarty->assign('input_allowselectpkg',
 		$this->CreateInputYesNoDropdown($id,'allowselectpkg',
 						$this->GetPreference('allowselectpkg')));
 
+$smarty->assign('input_allowinvitecodes',
+		$this->CreateInputYesNoDropdown($id,'allowinvitecodes',
+						$this->GetPreference('allowinvitecodes')));
+
 $cgecb = $this->GetModuleInstance('CGEcommerceBase');
 if( $cgecb )
   {

@@ -9,6 +9,10 @@
 		<p class="pagetext">{$prompt_inline}:</p>
 		<p class="pageinput">{$input_inline}</p>
 	</div>
+	<div class="pageoverflow">
+		<p class="pagetext">{$mod->Lang('prompt_allow_invitecodes')}:</p>
+		<p class="pageinput">{$input_allowinvitecodes}</p>
+	</div>
 
     </fieldset>
 
