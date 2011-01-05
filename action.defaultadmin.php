@@ -56,8 +56,8 @@ if( $this->CheckPermission('Modify Templates' ) )
     echo $this->SetTabHeader('emailconfirm_template', $this->Lang('emailconfirm_template'));
     echo $this->SetTabHeader('emailuseredited_template', $this->Lang('emailuseredited_template'));
     echo $this->SetTabHeader('finalmessage_template',$this->Lang('finalmessage_template'));
-    echo $this->SetTabHeader('sendanotheremail_template',
-			     $this->Lang('sendanotheremail_template'));
+    echo $this->SetTabHeader('invitecodes_template',$this->Lang('invitecodes_template'));
+    echo $this->SetTabHeader('sendanotheremail_template', $this->Lang('sendanotheremail_template'));
   }
 
 if( $this->CheckPermission('Modify Site Preferences') )
@@ -112,6 +112,10 @@ if( $this->CheckPermission('Modify Site Preferences') )
   {
     echo $this->StartTab('preferences',$params);
     include(dirname(__FILE__).'/function.admin_prefstab.php');
+    echo $this->EndTab();
+
+    echo $this->StartTab('invitecodes_template',$params);
+    include(dirname(__FILE__).'/function.admin_invitecodestab.php');
     echo $this->EndTab();
 
     echo $this->StartTab('regpkgs',$params);

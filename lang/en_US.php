@@ -242,4 +242,7 @@ Or read it <a href="http://www.gnu.org/licenses/licenses.html#GPL">online</a></p
 </ul>
 
 ';
+$lang['invitecodes_template'] = 'Invite Codes';
+$lang['invite_code'] = 'Invite Code';
+$lang['add_invitecode'] = 'Add Invite Code';
 ?>
