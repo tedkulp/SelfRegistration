@@ -246,4 +246,5 @@ $lang['invitecodes'] = 'Invite Codes';
 $lang['invite_code'] = 'Invite Code';
 $lang['add_invitecode'] = 'Add Invite Code';
 $lang['generate_code'] = 'Generate Code';
+$lang['error_invitecode'] = 'Please enter a valid invite code';
 ?>

@@ -53,7 +53,7 @@ if (is_array($grouplist))
 		$row['delete_link'] = $this->CreateImageLink($id,'admin_delinvitecode',$returnid,
 			$this->Lang('delete'),
 			'icons/system/delete.gif',
-			array('groupid'=>$row['id']));
+			array('groupid'=>$row['id']), '', $this->Lang('areyousure'));
 		$row['edit_link'] = $this->CreateImageLink($id,'admin_addinvitecode',$returnid,
 			$this->Lang('edit'),
 			'icons/system/edit.gif',

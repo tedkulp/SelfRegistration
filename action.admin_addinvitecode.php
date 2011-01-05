@@ -70,6 +70,11 @@ if (isset($params['submit']))
 
 	if ($group_id != '' && isset($params['code']))
 	{
+		if ($params['code'] == '')
+		{
+			$error = $this->Lang('error_invitecode');
+		}
+
 		$this->SetPreference('invite_code_' . $group_id, trim($params['code']));
 	}
 
