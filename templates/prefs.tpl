@@ -11,7 +11,10 @@
 	</div>
 	<div class="pageoverflow">
 		<p class="pagetext">{$mod->Lang('prompt_allow_invitecodes')}:</p>
-		<p class="pageinput">{$input_allowinvitecodes}</p>
+		<p class="pageinput">{$input_allowinvitecodes}
+            <br/>
+            {$mod->Lang('info_invite_codes')}
+		</p>
 	</div>
 
     </fieldset>
