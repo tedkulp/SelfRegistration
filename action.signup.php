@@ -46,9 +46,6 @@ if( $this->GetPreference('allowselectpkg') && !isset($params['group']))
     return;
   }
 
-$allow_invite_codes = ($this->GetPreference('allowinvitecodes', '0') == '1');
-$smarty->assign('invite_codes', $allow_invite_codes);
-
 $feusers =& $this->GetModuleInstance('FrontEndUsers');
 if( !$feusers )
   {
@@ -71,41 +68,38 @@ if( !$cmsmailer )
 
 $grpid = -1;
 $relations = array();
-if (!$allow_invite_codes)
+if( !isset( $params['group'] ) )
+  {
+	// this is ugly for the user to see
+	// but at least the admin will be able to figure it out
+	$this->_DisplayErrorPage( $id, $params, $returnid,
+				  $this->Lang('error_insufficientparams'));
+	return;
+  }
+
+// yep, all the modules are here, now we
+// have to convert the groupname into an id
+$grpid = $feusers->GetGroupID($params['group']);
+if( $grpid == false )
+  {
+	// this is ugly for the user to see
+	// but at least the admin will be able to figure it out
+	$this->_DisplayErrorPage( $id, $params, $returnid,
+				  $this->Lang('error_nosuchgroup'));
+	return;
+  }
+
+// now we have an id... have to get a list of the groups properties
+$relations = $feusers->GetGroupPropertyRelations( $grpid );
+if ($relations[0] == false)
 {
-	if( !isset( $params['group'] ) )
-	  {
-		// this is ugly for the user to see
-		// but at least the admin will be able to figure it out
-		$this->_DisplayErrorPage( $id, $params, $returnid,
-					  $this->Lang('error_insufficientparams'));
-		return;
-	  }
-
-	// yep, all the modules are here, now we
-	// have to convert the groupname into an id
-	$grpid = $feusers->GetGroupID($params['group']);
-	if( $grpid == false )
-	  {
-		// this is ugly for the user to see
-		// but at least the admin will be able to figure it out
-		$this->_DisplayErrorPage( $id, $params, $returnid,
-					  $this->Lang('error_nosuchgroup'));
-		return;
-	  }
-
-	// now we have an id... have to get a list of the groups properties
-	$relations = $feusers->GetGroupPropertyRelations( $grpid );
-	if( $relations[0] == false )
-	  {
-		// this is ugly for the user to see
-		// but at least the admin will be able to figure it out
-		$this->_DisplayErrorPage( $id, $params, $returnid, $relations[1] );
-		return;
-	  }
+	// this is ugly for the user to see
+	// but at least the admin will be able to figure it out
+	$this->_DisplayErrorPage( $id, $params, $returnid, $relations[1] );
+	return;
 }
-uasort( $relations,
-	array('SelfregUtils','compare_elements_by_sortorder_key') );
+
+uasort($relations, array('SelfregUtils','compare_elements_by_sortorder_key'));
 
 // now we have the properties, gotta show something to the user
 // dammit.
@@ -193,15 +187,6 @@ $onerow->control =$this->CreateInputPassword($id, 'input_repeatpassword', $val,
 					     $feusers->GetPreference('passwordfldlength'),
 					     $feusers->GetPreference('max_passwordlength'));
 $rowarray[$onerow->name] = $onerow;
-
-if ($allow_invite_codes)
-{
-	$onerow = new StdClass();
-	$onerow->name = 'invite_code';
-	$onerow->prompt = $this->Lang('invite_code');
-	$onerow->control = $this->CreateInputText($id, 'input_invite_code', $val, 20, 255);
-	$rowarray[$onerow->name] = $onerow;
-}
 
 $relations2 = array();
 foreach( $relations as $reln )

@@ -249,4 +249,5 @@ $lang['generate_code'] = 'Generate Code';
 $lang['error_invitecode'] = 'Please enter a valid Invite Code';
 $lang['prompt_allow_invitecodes'] = 'Use Invite Codes';
 $lang['info_invite_codes'] = 'By enabling this, you have the ability to create a custom code for every FrontEndUser group. When a user registers, they must enter in this code in order to complete the registration, and at the same time, determine which group they will be added to. This will not be an optional field and has to be filled in if it\'s enabled.';
+$lang['invite_codes_not_enabled'] = 'Invite codes not enabled';
 ?>

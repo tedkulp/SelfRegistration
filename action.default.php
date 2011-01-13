@@ -49,6 +49,7 @@ if( isset( $params['mode'] ) )
 switch( $mode )
   {
   case 'signup':
+  case 'invite_code':
     $this->DoAction($mode,$id,$params,$returnid);
     break;
     
@@ -63,7 +64,8 @@ switch( $mode )
     break;
     
   default:
-    $this->_DisplayErrorPage( $id, '', $returnid,
+	$empty = '';
+    $this->_DisplayErrorPage( $id, $empty, $returnid,
 			      $this->Lang('error_invalidmode'));
     break;
   }
