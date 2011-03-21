@@ -174,6 +174,17 @@ if( !empty($destpagestr) )
       }
     $returnid = $destpageid;
   }
+
+if( $this->GetPreference('selfreg_skip_final_msg'))
+  {
+    if( isset($params['orig_url']) && empty($destpagestr) )
+      {
+	redirect($params['orig_url']);
+	return;
+      }
+    $this->RedirectContent($returnid);
+  }
+
 $parms = array();
 $parms['username'] = $params['username'];
 $this->Redirect($id,'post_createuser',$returnid,$parms);

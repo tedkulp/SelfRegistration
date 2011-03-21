@@ -592,7 +592,7 @@ if( !empty($destpagestr) )
     $returnid = $destpageid;
   }
 
-if( $this->GetPreference('selfreg_skip_final_msg') ||
+if (($this->GetPreference('selfreg_skip_final_msg', 0) == 1 && $this->GetPreference('require_email_confirmation', 0) == 0) ||
     $this->GetPreference('allowpaidregistration') )
   {
     if( isset($params['orig_url']) && empty($destpagestr) )
