@@ -327,11 +327,15 @@ $smarty->assign ('endform', $this->CreateFormEnd ());
 $smarty->assign('title',$this->Lang('user_registration'));
 
 $allow_overwrite = (isset($params['allowoverwrite']))?$params['allowoverwrite']:0;
-$smarty->assign('hidden',
-		$this->CreateInputHidden($id, 'orig_url', cge_url::current_url()).
-		$this->CreateInputHidden($id, 'group_id', $grpid ).
-		$this->CreateInputHidden($id, 'group', $params['group']).
-		$this->CreateInputHidden($id, 'allowoverwrite',$allow_overwrite));
+$hidden_fields = $this->CreateInputHidden($id, 'orig_url', cge_url::current_url()).
+				$this->CreateInputHidden($id, 'group_id', $grpid ).
+				$this->CreateInputHidden($id, 'group', $params['group']).
+				$this->CreateInputHidden($id, 'allowoverwrite',$allow_overwrite);
+if (isset($params['nocaptcha']))
+{
+	$hidden_fields .= $this->CreateInputHidden($id, 'nocaptcha', $params['nocaptcha']);
+}
+$smarty->assign('hidden', $hidden_fields);
 $smarty->assign('controls', $rowarray);
 $smarty->assign('controlcount', count($rowarray));
 $smarty->assign('submit',$this->CreateInputSubmit($id,'submit',
