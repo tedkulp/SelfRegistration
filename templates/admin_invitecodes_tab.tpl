@@ -12,7 +12,7 @@
   </thead>
   <tbody>
   {foreach from=$grouplist item='onegroup'}
-    <tr>
+    <tr class="{$onegroup.rowclass}">
       <td><a href="{$onegroup.edit_url}">{$onegroup.groupname}</a></td>
       <td>{$onegroup.code}</td>
       <td>{$onegroup.edit_link}</td>

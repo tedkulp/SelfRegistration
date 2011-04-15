@@ -41,12 +41,26 @@ if( !$this->CheckPermission('Modify Site Preferences') ) return;
 $feu = $this->GetModuleInstance('FrontEndUsers');
 if( !$feu ) return;
 
+function sort_groups($a, $b)
+{
+	if (!isset($a['groupname']) || !isset($b['groupname']))
+		return 0;
+
+	if ($a == $b)
+		return 0;
+
+	return strcasecmp($a['groupname'], $b['groupname']);
+}
+
 $grouplist = $feu->GetGroupListFull();
+usort($grouplist, 'sort_groups');
 
 if (is_array($grouplist))
 {
+    $rowclass = 'row1';
 	foreach ($grouplist as &$row)
 	{
+		$row['rowclass'] = $rowclass;
 		$row['code'] = $this->GetPreference('invite_code_' . $row['id'], 'n/a');
 		$row['edit_url'] = $this->CreateURL($id,'admin_addinvitecode',$returnid,
 			array('groupid'=>$row['id']));
@@ -58,6 +72,7 @@ if (is_array($grouplist))
 			$this->Lang('edit'),
 			'icons/system/edit.gif',
 			array('groupid'=>$row['id']));
+		$rowclass = ($rowclass == "row1" ? "row2" : "row1");
 	}
 }
 
