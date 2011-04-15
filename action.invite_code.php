@@ -86,8 +86,10 @@ if ($allow_invite_codes)
 	$smarty->assign('endform', $this->CreateFormEnd());
 	$smarty->assign('controls', $rowarray);
 	$smarty->assign('controlcount', count($rowarray));
-	$smarty->assign('submit',$this->CreateInputSubmit($id,'submit',
-							  $this->Lang('submit')));
+	$smarty->assign('submit',$this->CreateInputSubmit($id,'submit', $this->Lang('submit')));
+
+	$smarty->assign('msg_sendanotheremail', $this->Lang('msg_sendanotheremail'));
+	$smarty->assign('link_sendanotheremail', $this->CreateLink($id, 'default', $returnid, $this->Lang('clickhere'), array('mode'=>'sendanotheremail'), '', false, true));
 
 	// todo, put this into the database and let the admin play with it.
 	echo $this->ProcessTemplateFromDatabase('selfreg_reg1template');
